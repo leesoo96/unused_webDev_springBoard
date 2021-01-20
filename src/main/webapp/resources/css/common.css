@@ -1,0 +1,100 @@
+@charset "UTF-8";
+
+@font-face {
+    font-family: 'Jal_Onuel';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-10-21@1.0/Jal_Onuel.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+* {
+	box-sizing: border-box;
+	font-family: 'Jal_Onuel';
+}
+html, body, ul, li {
+	margin: 0; padding: 0;
+}
+html, body {
+	width: 100%;
+	height: 100%;
+}
+a {
+	text-decoration: none;
+}
+
+#container {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+}
+
+.selectedMenu { /* 게시판 목록 배경색 지정 - 어떤 게시판을 보고있는지 확인용*/
+	background: #AFFFEC;
+}
+
+header {
+	background-color: #C3E3FF;
+	height: 65px;
+}
+header ul {
+	list-style: none;
+}
+header ul:after {
+	content: '';
+	display: block;
+	clear: both;
+}
+header li {
+	float: left;
+	width: 110px;
+	height: 65px;
+}
+header li:hover {
+	border: 2px solid #2888FF;
+}
+header a {
+	display: block;
+	color: black;
+	font-size: 18px;
+	text-align: center;
+	padding: 24px 16px; 
+}
+
+#container section {
+	flex-grow: 1;
+}
+
+.centerCont {
+	height: 100%;
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+section {
+	position: relative;
+}
+
+.circular--landscape {
+  display: inline-block;
+  overflow: hidden;
+  border-radius: 50%;
+  border: 4px solid #BCDAFF;
+}
+
+.circular--size50 {
+	width: 50px;
+	height: 50px;
+}
+
+.circular--size200 {
+	width: 200px;
+	height: 200px;
+}
+
+.circular--landscape img {
+  width: auto;
+  height: 100%;
+  /* margin-left: -50px; */
+}
