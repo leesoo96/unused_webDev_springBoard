@@ -2,7 +2,9 @@
 <!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN" "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
 
 <tiles-definitions>
-  <definition name="basic-template" template="/WEB-INF/views/temp/tiles_temp.jsp">
+  <definition name="basic-template" template="/WEB-INF/views/temp/tiles_temp.jsp"
+						preparer="menuPreparer">
+					<!--  MenuPreparer클래스의 빈 등록이름 -->
   	<put-attribute name="header" value="/WEB-INF/views/temp/header.jsp" />
   </definition>
 <!--기본적인 defiinition 태그를 하나 만들어둔다. -->

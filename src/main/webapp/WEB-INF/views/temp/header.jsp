@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
+<tiles:importAttribute name="menuList" />
 <header>
 	<ul>
 		<c:if test="${loginUser == null}">
@@ -13,9 +15,8 @@
 		</c:if>
 
 		<!-- 게시판 목록 표출 -->
-		<c:forEach items="${menus}" var="item">
-			<li class="${item.typ == param.typ ? 'selectedMenu' : ''}"><a
-				href="/board/list?typ=${item.typ }"> ${item.nm } </a></li>
+		<c:forEach items="${menuList}" var="menu">
+			<li> ${menu.nm }</li>
 		</c:forEach>
 
 		<c:if test="${loginUser != null }">

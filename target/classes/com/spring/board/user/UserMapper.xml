@@ -5,19 +5,30 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.spring.board.user.UserMapper">
-    <!--        메소드 이름 -->
-	<select id="selUserList" resultType="UserEntity">
-		SELECT * FROM t_user
-	</select>
-	
-	<select id="loginProc" resultType="UserEntity">
-		
-	</select>
-	
 	<!--  ' '없이 써야할때 # 사용 -->
-	<insert id="insert_User"  parameterType="UserEntity">
+	<insert id="insert_User"  parameterType="UserEntity"> <!--  회원가입 -->
 		INSERT INTO t_user ( user_id, user_pw, salt, nm, gender, phone ) 
-		VALUES  ( #{user_id}, #{user_pw}, '', #{nm}, #{gender}, #{phone} )
+		VALUES  ( #{user_id}, #{user_pw}, #{salt}, #{nm}, #{gender}, #{phone} )
 	</insert> 
-
+	
+	<select id="selUser" resultType="UserEntity"> <!--  로그인 -->
+		SELECT
+			i_user, nm <!-- 세션에 필요한 값이기때문에 꼭 가져오도록 함 -->
+			<if test="i_user > 0">
+				, user_id, ph, gender, profile_img
+			</if>
+			<if test="user_id != null and user_id !=''">
+				, salt, user_pw
+			</if> <!--  세션에는 필요없는 값이라서 분리를 한것. 전부 가져와도 상관없다 -->
+		FROM t_user
+		<where>
+			<if test="i_user > 0">
+				i_user = ${i_user}
+			</if>
+			<if test="user_id != null and user_id !=''">
+				and user_id = #{user_id}
+			</if>
+		</where>
+	</select>
+	
 </mapper>

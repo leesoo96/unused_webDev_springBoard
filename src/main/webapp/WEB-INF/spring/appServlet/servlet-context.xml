@@ -38,6 +38,9 @@
 				<beans:value>/WEB-INF/tiles/tiles.xml</beans:value>
 			</beans:list>
 		</beans:property>	
+		<!--  tiles 동적 메뉴 구성을 위한 설정 -->
+		<beans:property name="preparerFactoryClass"
+			value="org.springframework.web.servlet.view.tiles3.SpringBeanPreparerFactory" />
 	</beans:bean>
 	
 	<!-- HikariCP 설정 -->

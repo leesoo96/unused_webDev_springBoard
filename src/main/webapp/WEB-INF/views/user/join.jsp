@@ -8,7 +8,7 @@
 				<div><input type="password" name="user_pw_chk" placeholder="비밀번호 확인"></div>
 				<div><input type="text" name="nm" placeholder="성함" required></div>
 				<div>
-					성별 : 
+					성별 :        
 					<label>여자<input type="radio" name="gender" value="0" checked></label>
 					<label>남자<input type="radio" name="gender" value="1"></label>
 				</div>
