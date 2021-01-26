@@ -14,9 +14,12 @@
 			<li><a href="/user/logout">로그아웃</a></li>
 		</c:if>
 
+		<li><a href="/board/home">Home</a></li>
+
 		<!-- 게시판 목록 표출 -->
-		<c:forEach items="${menuList}" var="menu">
-			<li> ${menu.nm }</li>
+		<!--  pageScope -> page객체에 바인딩된 데이터에 접근할 수 있다  -->
+		<c:forEach items="${pageScope.menuList}" var="menu">
+			<li> <a href="/board/list?typ=${menu.typ }">${menu.nm }</a></li>
 		</c:forEach>
 
 		<c:if test="${loginUser != null }">

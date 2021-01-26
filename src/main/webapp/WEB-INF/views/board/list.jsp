@@ -4,9 +4,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <link rel="stylesheet" href="/res/css/bList.css">
 <div>
-	<c:if test="${loginUser != null }">
+	<c:if test="${sessionScope.loginUser != null }">
 		<div>        
-			<a href="/board/reg.korea?typ=${param.typ == null ? 1 : param.typ}"><button>WRITE</button></a>	
+			<a href="/board/regmod?typ=${param.typ == null ? 1 : param.typ}"><button>WRITE</button></a>	
 		</div>
 	</c:if>
 	
@@ -22,7 +22,7 @@
 				<td>선호도</td>
 			</tr>
 		
-		<c:forEach items="${list }" var="item">
+		<c:forEach items="${requestScope.list }" var="item">
 			<tr class="pointer" onclick="clickArticle(${item.i_board})">
 				<td>${item.seq}</td>
 				<td>${item.title}</td>

@@ -59,6 +59,7 @@
 	
 	<beans:bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<beans:property name="dataSource" ref="dataSource" />
+		
 		<!-- @Alias가 붙은 클래스들을 모두 찾는다 -->
 		<beans:property name="typeAliasesPackage" value="com.spring.board"/>
 	</beans:bean>

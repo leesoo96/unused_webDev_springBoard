@@ -1,5 +1,8 @@
 package com.spring.board.model;
 
+import org.apache.ibatis.type.Alias;
+
+@Alias("ManageBoardEntity")
 public class ManageBoardEntity {
 
 	private int typ;
