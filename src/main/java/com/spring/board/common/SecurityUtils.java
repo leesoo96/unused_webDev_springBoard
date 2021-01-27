@@ -8,19 +8,31 @@ import java.security.SecureRandom;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.mindrot.jbcrypt.BCrypt;
+
 import com.spring.board.model.UserEntity;
 
 public class SecurityUtils {
 
-//	true -> 로그아웃 상태 / false -> 로그인 상태
-	public static boolean isLogout(HttpServletRequest request) {
-		return getLoginUser(request) == null;
-	}
-	// 코드 다시 고쳐야함!!!!!!!!!!!! + UserService
-	public static UserEntity getLoginUser(HttpServletRequest request) {
-		HttpSession session = request.getSession();
+//		true: 로그인 상태, false:  로그아웃 상태
+		public static boolean isLogin(HttpSession session) {
+			return getLoginUser(session) != null;
+		}
 		
-		return (UserEntity)session.getAttribute("loginUser");
-	}
-//	------------------------------------------------------------------------
+		public static UserEntity getLoginUser(HttpSession session) {
+			return (UserEntity) session.getAttribute(Const.LOGINUSER);
+		}
+		
+		public static int getLoingUserPk(HttpSession session) {
+			UserEntity loginUser = getLoginUser(session);
+			return loginUser == null ? 0 : loginUser.getI_user();
+		}
+		
+		public static String genSalt() {
+			return BCrypt.gensalt();
+		}
+
+		public static String hashPassword(String pw, String salt) {
+			return BCrypt.hashpw(pw, salt);
+		}
 }

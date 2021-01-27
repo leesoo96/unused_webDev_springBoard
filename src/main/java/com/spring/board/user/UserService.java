@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.spring.board.common.Const;
+import com.spring.board.common.SecurityUtils;
 import com.spring.board.common.Utils;
 import com.spring.board.model.UserEntity;
 
@@ -28,7 +29,7 @@ public class UserService {
 			return 2; // 아이디없음
 		}
 		
-		String login_Pw = Utils.hashPassword(param.getUser_pw(), dbData.getSalt());
+		String login_Pw = SecurityUtils.hashPassword(param.getUser_pw(), dbData.getSalt());
 		
 		if(!login_Pw.equals(dbData.getUser_pw())) {
 			return 3; // 비밀번호 오류
@@ -44,8 +45,8 @@ public class UserService {
 	}
 		
 	public int insert_User(UserEntity param) { // 회원가입
-		String salt = Utils.genSalt();
-		String encrypt_Pw = Utils.hashPassword(param.getUser_pw(), salt);
+		String salt = SecurityUtils.genSalt();
+		String encrypt_Pw = SecurityUtils.hashPassword(param.getUser_pw(), salt);
 		
 		param.setSalt(salt);
 		param.setUser_pw(encrypt_Pw);

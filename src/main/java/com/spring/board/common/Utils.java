@@ -8,14 +8,4 @@ public class Utils {
 	public static String myViewResolver(String fileNm) {
 		return "/WEB-INF/views/" + fileNm + ".jsp";
 	}
-	
-//	암호화 ----------------------------------------------------------
-	public static String genSalt() {
-		return BCrypt.gensalt();
-	}
-	
-	public static String hashPassword(String pw, String salt) {
-		return BCrypt.hashpw(pw, salt);
-	}
-// --------------------------------------------------------------------
 }

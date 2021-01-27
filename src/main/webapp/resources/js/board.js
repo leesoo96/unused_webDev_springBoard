@@ -1,12 +1,26 @@
 // 글 번호 클릭 시  해당 url로 이동
 function clickArticle(i_board){
-		var url = `/board/detail.korea?i_board=${i_board}`;
+		var url = `/board/detail?i_board=${i_board}`;
 		location.href = url; 
 }
 
+//  글 삭제 - fetch API 사용
 function clickDel(i_board, typ){
 	if(confirm('정말 삭제하시겠습니까?')){
-		location.href = `bDel?i_board=${i_board}&typ=${typ}`;
+		fetch(`/board/del/${i_board}`)
+		.then(function(res){
+			return res.json(); // 꼭 리턴해야함
+		})
+		.then(function(myJson) {
+			console.log(myJson);
+			
+			if(myJson.result === 1){
+				alert('삭제가 완료되었습니다.');
+				location.href = `/board/list?typ=${typ}`;
+			}else {
+				alert('삭제 실패하였습니다.');
+			}
+		});
 	}
 }
 
@@ -20,6 +34,7 @@ function cmtModClose(i_cmt){
 	modFrm.classList.add('cmt_mod_form');
 }
 
+// Ajax통신 사용
 // 좋아요 기능 처리 1
 function toggleFavorite(i_board){
 	var heart = document.querySelector('#favoriteFunc');

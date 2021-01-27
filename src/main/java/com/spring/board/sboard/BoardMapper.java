@@ -15,5 +15,9 @@ public interface BoardMapper {
 
 	List<BoardDomain> selBoardList(BoardDTO param); // 게시글 목록 읽어오기
 	
-	int insertBoard(BoardEntity param);
+	int insertBoard(BoardEntity param); // 게시글 쓰기
+	
+	BoardDomain selBoard(BoardDTO param); // 게시글 읽기
+	
+	int delBoard(BoardDTO param); // 게시글 삭제
 }
