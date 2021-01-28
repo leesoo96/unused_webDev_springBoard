@@ -1,15 +1,16 @@
 package com.spring.board.model;
 
 import org.apache.ibatis.type.Alias;
+
 // model
-// 테이블과 1대1 매핑
+// ���̺�� 1��1 ����
 @Alias("UserEntity")
 public class UserEntity {
-
+	
 	private int i_user;
 	private String user_id;
 	private String user_pw;
-	private String salt; // 비밀번호 암호화할  salt
+	private String salt; // 비밀번호 암호화할 salt
 	private String nm;
 	private int gender;
 	private String phone;

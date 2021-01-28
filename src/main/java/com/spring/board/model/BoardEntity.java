@@ -3,8 +3,8 @@ package com.spring.board.model;
 import org.apache.ibatis.type.Alias;
 
 @Alias("BoardEntity")
-public class BoardEntity extends UserModel{
-
+public class BoardEntity {
+	
 	private int i_board;
 	private int typ;
 	private int seq; // 글번호

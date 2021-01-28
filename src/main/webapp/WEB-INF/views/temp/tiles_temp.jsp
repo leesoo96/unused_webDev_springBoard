@@ -15,6 +15,7 @@
 <script defer src="/res/js/<tiles:getAsString name="categoryJS"/>.js"></script>
 </head>
 <body>
+
 	<div id="container">
 		<tiles:insertAttribute name="header" />
 		<section>
@@ -23,3 +24,6 @@
 	</div>
 </body>
 </html>
+
+
+

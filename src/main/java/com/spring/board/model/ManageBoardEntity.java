@@ -4,7 +4,7 @@ import org.apache.ibatis.type.Alias;
 
 @Alias("ManageBoardEntity")
 public class ManageBoardEntity {
-
+	
 	private int typ;
 	private String nm;
 	private int orderby;
@@ -27,6 +27,4 @@ public class ManageBoardEntity {
 	public void setOrderby(int orderby) {
 		this.orderby = orderby;
 	}
-	
-	
 }

@@ -1,21 +1,21 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<div id="centerContainer">		
 	<div>
-		<div> 
-			<form id="joinFrm" action="/user/join" method="post" onsubmit="return joinConfirm();">
-				<div><input type="text" name="user_id" placeholder="아이디" required></div>
-				<div><input type="password" name="user_pw" placeholder="비밀번호" required></div>
-				<div><input type="password" name="user_pw_chk" placeholder="비밀번호 확인"></div>
-				<div><input type="text" name="nm" placeholder="성함" required></div>
-				<div>
-					성별 :        
-					<label>여자<input type="radio" name="gender" value="0" checked></label>
-					<label>남자<input type="radio" name="gender" value="1"></label>
-				</div>
-				<div>
-					<input type="text" name="phone" placeholder="휴대폰 번호를 입력해주세요.">
-				</div>
-				<div><input type="submit" value="회원가입"></div>
-			</form>
-		</div>
+		<form id="frm" action="/user/join" method="post" onsubmit="return joinChk();">
+			<div><input type="text" name="user_id" placeholder="id" required></div>
+			<div><input type="password" name="user_pw" placeholder="password" required></div>
+			<div><input type="password" name="user_pw_chk" placeholder="password check"></div>
+			<div><input type="text" name="nm" placeholder="Your Name" required></div>
+			<div>
+				Gender : 
+				<label>Woman<input type="radio" name="gender" value="0" checked></label>
+				<label>Man<input type="radio" name="gender" value="1"></label>					
+			</div>
+			<div>
+				<input type="text" name="phone" placeholder="Your Phone Number">
+			</div>
+			<div><input type="submit" value="JOIN"></div>
+		</form>
 	</div>
+</div>	

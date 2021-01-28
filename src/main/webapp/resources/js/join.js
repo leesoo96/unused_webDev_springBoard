@@ -1,27 +1,28 @@
-function joinConfirm(){
-	var joinFrm = document.querySelector('#joinFrm');
-	var userId = joinFrm.user_id;
+function joinChk() {
+	var frm = document.querySelector('#frm');	
+	var eleId = frm.user_id;
 	
-	var regExpUserId = /^[A-Za-z0-9+]*$/;
-	if(!regExpUserId.test(userId.value)){
-		alert('아이디는 영소문자와 숫자만 가능합니다.');
-		userId.focus();
+	var reUserId = /^[A-Za-z0-9+]*$/;
+	if(!reUserId.test(eleId.value)) {
+		alert('Check you id please');
+		eleId.focus();
 		return false;
 	}
 	
-	var pw = joinFrm.user_pw;
-	var pw_Confirm = joinFrm.user_pw_chk;
-	if(pw.value !== pw_Confirm.value){
-		alert('비밀번호가 다릅니다.');
-		pw_Confirm.focus();
+	var pw = frm.user_pw;
+	var pw_chk = frm.user_pw_chk
+	if(pw.value !== pw_chk.value) {
+		alert('Check you password please');
+		pw.focus();
 		return false;
 	}
 	
-	var name = joinFrm.nm;
-	var nameConfirm = /^[가-힣]*$/;
-	if(!nameConfirm.test(name.value)){
-		name.focus();
-		alert('이름은 한글만 가능합니다.');
+	var eleNm = frm.nm;
+	var reNm = /^[가-힣]*$/;
+	if(!reNm.test(eleNm.value)) {
+		alert('Name is only Korean.');
+		eleNm.focus();
 		return false;
 	}
+	
 }

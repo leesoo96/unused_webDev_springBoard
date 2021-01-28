@@ -28,7 +28,11 @@
 				<tr class="pointer" onclick="clkArticle(${item.i_board})">
 					<td>${item.seq}</td>
 					<td>					
-						${fn:length(item.title) > 12 ? fn:substring(item.title, 0, 11) += '...' : item.title}
+						${
+							fn:length(item.title) > 12 
+							? fn:substring(item.title, 0, 11) += '...' 
+							: item.title
+						}
 					</td>
 					<td>${item.hits}</td>
 					<td>${item.favorite_cnt}</td>
@@ -44,7 +48,7 @@
 								<img id="profileImg" src="/res/img/${item.i_user}/${item.profile_img}">
 							</div>
 						</c:if>
-						<span class="profile-td-nm">${item.nm}</span>
+						<span class="profile-td-nm">${item.writer_nm}</span>
 					</td>
 				</tr>
 			</c:forEach>

@@ -2,43 +2,57 @@ package com.spring.board.sboard;
 
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
 
+import com.spring.board.model.BoardCmtEntity;
 import com.spring.board.model.BoardDTO;
 import com.spring.board.model.BoardDomain;
 import com.spring.board.model.BoardEntity;
-import com.spring.board.model.ManageBoardEntity;
 
 @Service
 public class BoardService {
-
-	@Autowired
-	public BoardMapper mapper;
 	
-//	각 게시판 게시글 목록 읽어오기
-	public List<BoardDomain> selBoardList(BoardDTO param){
-		if(param.getTyp() == 0) {
-			param.setTyp(1);
+	@Autowired
+	private BoardMapper mapper;
+	
+//	게시글 목록 
+	public List<BoardDomain> selBoardList(BoardDTO p) {
+		if(p.getTyp() == 0) {
+			p.setTyp(1);
 		}
-		return mapper.selBoardList(param);
+		return mapper.selBoardList(p);
 	}
 	
-//	게시글 쓰기
-	public int insertBoard(BoardEntity param) {
-		return mapper.insertBoard(param);
+//	글쓰기
+	public int insBoard(BoardEntity p) {
+		return mapper.insBoard(p);
 	}
 	
 //	글읽기
-	public BoardDomain selBoard(BoardDTO param) {
-		return mapper.selBoard(param);
+	public BoardDomain selBoard(BoardDTO p) {
+		p.setHits(1);
+		mapper.upBoardHits(p); // 조회수 증가
+		
+		return mapper.selBoard(p);
 	}
 	
-//	글삭제
-	public int delBoard(BoardDTO param) {
-		return mapper.delBoard(param);
+//글삭제
+	public int delBoard(BoardDTO p) {
+		return mapper.delBoard(p);
+	}
+	
+//	글수정
+	public int upBoard(BoardEntity p) {
+		return mapper.upBoard(p);
+	}
+	
+//	댓글쓰기
+	public int insCmt(BoardCmtEntity p) {
+		if(p.getI_board() != 0) {
+			return 1;
+		}else {
+			return 0;
+		}
 	}
 }

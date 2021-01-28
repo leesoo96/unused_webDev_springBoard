@@ -8,16 +8,16 @@
 		http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
 		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
-
-	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
 	
 	<!-- RequestMapping을 사용할 수 있게 한다 무조건 있어야하는 아이! -->
 	<!-- Enables the Spring MVC @Controller programming model -->
 	<annotation-driven />
 
+	<context:component-scan base-package="com.koreait.sboard" />
+	
 	<!-- webapp 아래의 resources안에 있는 파일들을 매핑한다 -->
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
-	<resources mapping="/res/**" location="/resources/" />
+	<resources mapping="/res/**"  location="/resources/" />
 
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
 	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -31,17 +31,18 @@
 		<beans:property name="order" value="1" />
 	</beans:bean>
 	
-	<!-- Tiles 설정 파일  -->
+	<!-- Tiles 설정 파일 -->
 	<beans:bean class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">
 		<beans:property name="definitions">
 			<beans:list>
 				<beans:value>/WEB-INF/tiles/tiles.xml</beans:value>
 			</beans:list>
-		</beans:property>	
+		</beans:property>
+		
 		<!--  tiles 동적 메뉴 구성을 위한 설정 -->
-		<beans:property name="preparerFactoryClass"
-			value="org.springframework.web.servlet.view.tiles3.SpringBeanPreparerFactory" />
-	</beans:bean>
+		<beans:property name="preparerFactoryClass" 
+			value="org.springframework.web.servlet.view.tiles3.SpringBeanPreparerFactory"/>
+		</beans:bean>
 	
 	<!-- HikariCP 설정 -->
 	<beans:bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
@@ -60,13 +61,14 @@
 	<beans:bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<beans:property name="dataSource" ref="dataSource" />
 		
-		<!-- @Alias가 붙은 클래스들을 모두 찾는다 -->
-		<beans:property name="typeAliasesPackage" value="com.spring.board"/>
-	</beans:bean>
-	
+        
+        <!-- @Alias가 붙은 클래스들을 모두 찾는다 -->
+        <beans:property name="typeAliasesPackage" value="com.spring.board"/>        
+    </beans:bean>
+    
 	<mybatis-spring:scan base-package="com.spring.board"/>
 	
-	<!-- 무조건 있어야하는 아이!! -->
+	<!-- 무조건 있어야하는 아이!!  
 	<context:component-scan base-package="com.spring.board" />
-	
+	-->
 </beans:beans>

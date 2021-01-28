@@ -1,56 +1,60 @@
 package com.spring.board.user;
 
-import java.util.List;
-
 import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.stereotype.Service;
-
 import com.spring.board.common.Const;
 import com.spring.board.common.SecurityUtils;
-import com.spring.board.common.Utils;
 import com.spring.board.model.UserEntity;
 
-// dao, service는 인터페이스와 클래스가 한 세트!
-// 실질적인 로직 담당
-@Service // 빈 등록
-public class UserService {
+//dao, service는 인터페이스와 클래스가 한 세트!
+//실질적인 로직 담당
+@Service
+public class UserService {	
 	
 //	자동으로 객체를 만들어주고 new()없이 사용할 수 있다 
 	@Autowired
-	public UserMapper mapper;
+	private UserMapper mapper;
 	
-	public int login(UserEntity param, HttpSession session) { // 로그인
+	// 로그인
+	public int login(UserEntity param, HttpSession hs) {
 		UserEntity dbData = mapper.selUser(param);
-		
-		if(dbData == null) {
+		if(dbData == null) { 
 			return 2; // 아이디없음
 		}
+		String cryptLoginPw = SecurityUtils.hashPassword(param.getUser_pw(), dbData.getSalt());
 		
-		String login_Pw = SecurityUtils.hashPassword(param.getUser_pw(), dbData.getSalt());
-		
-		if(!login_Pw.equals(dbData.getUser_pw())) {
+		if(!cryptLoginPw.equals(dbData.getUser_pw())) { 
 			return 3; // 비밀번호 오류
 		}
 		
 		// 보안을 위해 입력된 값 날림(세션에 저장된 비밀번호 값 제거)
 		dbData.setSalt(null);
 		dbData.setUser_pw(null);
-											// 실수 방지를 위해 final로 생성
-		session.setAttribute(Const.LOGINUSER, dbData); 
 		
-		return 1; // 로그인 성공
+		// 실수 방지를 위해 final로 생성
+		hs.setAttribute(Const.KEY_LOGINUSER, dbData);		
+		return 1;
 	}
-		
-	public int insert_User(UserEntity param) { // 회원가입
-		String salt = SecurityUtils.genSalt();
-		String encrypt_Pw = SecurityUtils.hashPassword(param.getUser_pw(), salt);
+	
+//	회원가입
+	public int insUser(UserEntity param) {
+		String salt = SecurityUtils.gensalt();
+		String encryptPw = SecurityUtils.hashPassword(param.getUser_pw(), salt);
 		
 		param.setSalt(salt);
-		param.setUser_pw(encrypt_Pw);
+		param.setUser_pw(encryptPw);
 		
-		return mapper.insert_User(param);
+		return mapper.insUser(param);
 	}
 }
+
+
+
+
+
+
+
+
+
+
