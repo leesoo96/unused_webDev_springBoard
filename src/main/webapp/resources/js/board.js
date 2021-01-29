@@ -1,101 +1,161 @@
 'use strict'
 
-// 글 번호 클릭 시  해당 url로 이동
-function clickArticle(i_board){
-		var url = `/board/detail?i_board=${i_board}`;
-		location.href = url; 
+//글 제목 클릭
+function clkArticle(i_board) {		
+	var url = `/board/detail?i_board=${i_board}`;
+	location.href = url; //주소값 이동
 }
 
-//  글 삭제 - fetch API 사용
-function clickDel(i_board, typ){
-	if(confirm('정말 삭제하시겠습니까?')){
-		fetch(`/board/del/${i_board}`)
-		.then(function(res){
-			return res.json(); // 꼭 리턴해야함
+//삭제 버튼 클릭 
+function clkDel(i_board, typ) {
+	if(confirm('삭제 하시겠습니까?')) {
+		fetch(`/board/del/${i_board}`, {
+			method: 'delete'
 		})
-		.then(function(myJson) {
-			console.log(myJson);
-			
-			if(myJson.result === 1){
+		.then(function(res) {			
+			return res.json(); // 꼭 리턴해야함
+		}).then(function(myJson) {
+		    console.log(myJson);
+
+			if(myJson.result === 1) { 
 				alert('삭제가 완료되었습니다.');
 				location.href = `/board/list?typ=${typ}`;
-			}else {
-				alert('삭제 실패하였습니다.');
+			} 
+			else { 
+				alert("삭제 실패하였습니다.");
 			}
 		});
 	}
 }
 
-// 댓글 수정버튼 클릭 
-function cmtMod(i_cmt){
-	var modFrm = document.querySelector('#mod_'+i_cmt);
-	modFrm.classList.remove('cmt_mod_form');	
+//댓글에서 수정버튼 클릭 
+function clkCmtMod(i_cmt) {
+	var trForm = document.querySelector('#mod_' + i_cmt);
+	trForm.classList.remove('cmd_mod_form');
+	console.log(trForm);
 }
-function cmtModClose(i_cmt){
-	var modFrm = document.querySelector('#mod_'+i_cmt);
-	modFrm.classList.add('cmt_mod_form');
+
+function clkCmtClose(i_cmt) {
+	var trForm = document.querySelector('#mod_' + i_cmt);
+	trForm.classList.add('cmd_mod_form');
 }
 
 // Ajax통신 사용
-// 좋아요 기능 처리 1
+// 좋아요 기능 처리(첫번째)
 function toggleFavorite (i_board) {
-	var heart = document.querySelector('#favoriteFunc');
-	var state = heart.getAttribute('is_favorite'); // 문자열상태임!
+	var fc = document.querySelector('#favoriteContainer');
+	var state = fc.getAttribute('is_favorite');  // -> 문자열상태!
 	console.log(state); // 좋아요 안누른 상태 -> 0이 나온다(기본값)
-	state = 1 - state; 
+	
+	var state = 1 - state;
 	
 	// get 방식으로 통신
-	axios.get('/board/ajax_favorite.korea', {
+	axios.get('/board/ajaxFavorite.korea', {
 		params: {
-			// state 값이 1이면 좋아요안누름 0이면 좋아요 누름 
-			state : state,
+			// state 값이 1이면 좋아요안누름 0이면 좋아요누름 
+			'state': state,
 			// t_board의 i_board => 게시물 번호(PK)
-			i_board : i_board
-		}
-	}).then(function (res) { 
-		console.log(res); // 통신 성공
+			'i_board': i_board
+		}	
+	}).then(function (res) { //통신 성공
+		console.log(res);
 		
-	/*	data:
+		/*	data:
 	      result: 1 - 콘솔창에서 확인완료
-	*/	if(res.data.result == 1){
+		*/
+		if(res.data.result == 1) {
 			var iconClass = state == 1 ? 'fas' : 'far';
-			heart.innerHTML = `<i class="${iconClass} fa-heart"></i>`;
-			heart.setAttribute('is_favorite', state);
-		}else {
-			alert('에러가 발생하였습니다.');
+			fc.innerHTML = `<i class="${iconClass} fa-heart"></i>`;
+			fc.setAttribute('is_favorite', state)
+		} else {
+			alert('에러가 발생하였습니다.')
 		}
-	}).catch(function(err){
-		console.err('에러 발생!!' + err); // 통신 실패 
+	}).catch(function(err) { //통신 실패
+		console.err('err 발생 : ' + err)
 	});
 }
 
 // 댓글쓰기 - ajax 이용
-var cmtFrmEle = document.querySelector('#cmtFrm'')
-if(cmtFrmEle) { // -> cmtFrmEle != undefined
-	var i_board = cmtFrmEle.dataset.id // data-id="${data.i_board }
-	var ctntEle = cmtFrmEle.ctnt
-	var btnEle = cmtFrmEle.btn
+var cmtFrmElem = document.querySelector('#cmtFrm')
+if(cmtFrmElem) { // -> cmtFrmEle != undefined
 	
-	btnEle.addEventListener('click', ajax)
+	cmtFrmElem.onsubmit = function(e) {
+		e.preventDefault()
+	}
+
+	var ctntElem = cmtFrmElem.ctnt
+	var i_board = ctntElem.dataset.id
+	var btnElem = cmtFrmElem.btn
 	
+	btnElem.addEventListener('click', ajax)
+		
 	function ajax () {
 		var param = {
-			i_board : i_board,
-			ctnt : ctntEle.value
+			i_board,
+			ctnt: ctntElem.value
 		}
-		
-		console.log(`i_board = ${param.i_board}`)
+		console.log(param)
 		
 		fetch('/board/insCmt', {
 			method: 'POST',
 			headers: {
-				'Content-Type' : 'application/json'
+            	'Content-Type': 'application/json'
 			},
 			body: JSON.stringify(param) // 객체를 문자열(JSON) 형태로 변환한다
-		}).then(function (res) {
-			return res.json() // promise 리턴
-		}).then(function (myjson) {
-			console.log(myjson)
+		}).then(function(res) {
+			return res.json()  // promise 객체 리턴
+		}).then(function(data) {
+			proc(data)
 		})
 	}
+	
+	getCmtList(i_board)
+	
+	ctntElem.onkeyup = function(e) {
+		if(e.keybcode == 13) {
+			ajax()
+		}
+	}
 }
+
+function proc (data) {
+	switch(data.result) {
+		case 0 :
+			alert('댓글작성에 실패하였습니다.')
+		return
+		case 1 : 
+			ctntEle.value = ''
+		return 
+	}
+}
+//--------------------------------------
+
+// 댓글읽기
+function getCmtList (i_board) {
+	fetch(`/board/cmtList?i_board=${i_board}`)
+	.then(function (res) {
+		return res.json()
+	})
+	.then(function (list) {
+		console.log(list)
+	})
+}
+
+var cmtList = document.querySelector('#cmtList')
+if(cmtList) {
+	function init () {
+		var table = document.createElement('table')
+		table.innerHTML = 
+		`<tr>					
+			<th>내용</th>
+			<th>작성자</th>
+			<th>작성일</th>
+			<th>비고</th>					
+		</tr>`
+		
+		return table
+	}
+	
+	cmtList.appendChild(init())
+}
+//------------------------------------------------------------

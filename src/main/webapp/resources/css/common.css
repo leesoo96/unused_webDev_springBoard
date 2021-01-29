@@ -1,4 +1,5 @@
-@charset "UTF-8";
+@charset "EUC-KR";
+
 * {
 	box-sizing: border-box;
 }
@@ -120,4 +121,3 @@ header ul li a:hover:not(.active) {
 .w200 {
 	width: 200px;
 }
-

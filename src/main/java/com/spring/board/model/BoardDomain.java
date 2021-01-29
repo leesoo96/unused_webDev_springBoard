@@ -3,12 +3,12 @@ package com.spring.board.model;
 import org.apache.ibatis.type.Alias;
 
 @Alias("BoardDomain")
-public class BoardDomain extends BoardEntity {
-	
-	private String writer_nm; // 작성자 이름
-	private String profile_img; // 프로필 사진
+public class BoardDomain extends BoardEntity{
+
+	private String writer_nm; 
+	private String profile_img; 
 	private int favorite_cnt;
-	private int is_favorite; // 좋아요 
+	private int is_favorite; 
 	
 	public String getProfile_img() {
 		return profile_img;

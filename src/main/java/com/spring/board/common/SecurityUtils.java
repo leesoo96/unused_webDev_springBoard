@@ -1,13 +1,13 @@
 package com.spring.board.common;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+
 import org.mindrot.jbcrypt.BCrypt;
+
 import com.spring.board.model.UserEntity;
 
 public class SecurityUtils {
 
-//	true: 로그인 상태, false:  로그아웃 상태
 	public static boolean isLogin(HttpSession hs) {
 		return getLoginUser(hs) != null;
 	}
@@ -28,13 +28,4 @@ public class SecurityUtils {
 	public static String hashPassword(String pw, String salt) {
 		return BCrypt.hashpw(pw, salt);
 	}
-	
 }
-
-
-
-
-
-
-
-

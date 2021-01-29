@@ -4,15 +4,15 @@ import org.apache.ibatis.type.Alias;
 
 @Alias("BoardEntity")
 public class BoardEntity {
-	
+
 	private int i_board;
 	private int typ;
-	private int seq; // 글번호
+	private int seq; // �۹�ȣ
 	private String title;
 	private String ctnt;
 	private String r_dt;
 	private int hits;
-	private int i_user; // 글쓴이
+	private int i_user; // �۾���
 	
 	public int getI_board() {
 		return i_board;
@@ -62,6 +62,4 @@ public class BoardEntity {
 	public void setI_user(int i_user) {
 		this.i_user = i_user;
 	}
-	
-	
 }

@@ -1,6 +1,7 @@
 package com.spring.board.sboard;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -13,86 +14,94 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.spring.board.common.Const;
-import com.spring.board.common.SecurityUtils;
-import com.spring.board.model.BoardCmtEntity;
 import com.spring.board.model.BoardDTO;
 import com.spring.board.model.BoardEntity;
+import com.spring.board.model.BoardCmtDomain;
+import com.spring.board.model.BoardCmtEntity;
+import com.spring.board.common.SecurityUtils;
 
 @Controller
 @RequestMapping("/board")
 public class BoardController {
-	
+
 	@Autowired
 	private BoardService service;
 	
-	@GetMapping("/home") // home 페이지 표시
+	@GetMapping("/home") 
 	public void home() {}
 	
-	@GetMapping("/list") // 각 게시판의 글 목록 읽어오기
+	@GetMapping("/list") 
 	public void list(Model model, BoardDTO p) {
 		model.addAttribute(Const.KEY_LIST, service.selBoardList(p));
 	}
 	
-	@GetMapping("/reg") // 글쓰기 페이지 표시
+	@GetMapping("/reg") 
 	public String reg() {
 		return "board/regmod";
 	}
 	
-	@PostMapping("/reg") //글쓰기 
+	@PostMapping("/reg")  
 	public String reg(BoardEntity p, HttpSession hs) {
 		p.setI_user(SecurityUtils.getLoingUserPk(hs));
 		service.insBoard(p);
-		
 		return "redirect:/board/detail?i_board=" + p.getI_board();
 	}
 	
-	@GetMapping("/detail") // 글읽기
+	@GetMapping("/detail") 
 	public void detail(BoardDTO p, HttpSession hs, Model model) {
 		p.setI_user(SecurityUtils.getLoingUserPk(hs));
 		model.addAttribute(Const.KEY_DATA, service.selBoard(p));
 	}
 		
-	@ResponseBody // -> 알아서 JSON형태로 저장한다
-	@DeleteMapping("/del/{i_board}")	 // 글삭제
+	@ResponseBody 
+	@DeleteMapping("/del/{i_board}") 
 	public Map<String, Object> del(BoardDTO p, HttpSession hs) {		
 		System.out.println("i_board : " + p.getI_board());
 		p.setI_user(SecurityUtils.getLoingUserPk(hs));
 		
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("result", service.delBoard(p));
-//						    key 값      value 값 
 		
+		map.put("result", service.delBoard(p));
 		return map;
 	}
 	
-	@GetMapping("/mod") // 글수정 페이지 표시
+	@GetMapping("/mod")
 	public String mod(BoardDTO p, Model model) {
 		model.addAttribute(Const.KEY_DATA, service.selBoard(p));
-		
 		return "board/regmod";
 	}
 	
-	@PostMapping("/mod") // 글수정
+	@PostMapping("/mod") 
 	public String mod(BoardEntity p, HttpSession hs) {
-//	   보안처리를 걸어줘야 악의적인 수정 등의 공격이 불가하다 
 		p.setI_user(SecurityUtils.getLoingUserPk(hs));
-		service.upBoard(p);
+		service.updBoard(p);
 		
 		return "redirect:/board/detail?i_board=" + p.getI_board();
 	}
 	
 	@ResponseBody
-	@PostMapping("/insCmt") //	댓글쓰기
-	public Map<String, Object> insCmt(@RequestBody BoardCmtEntity p, HttpSession hs) { 
-		System.out.println("i_board = " + p.getI_board() + " / ctnt = " + p.getCtnt());
+	@PostMapping("/insCmt") 
+	public Map<String, Object> insCmt(@RequestBody BoardCmtEntity p
+			, HttpSession hs) {
+		
+		System.out.println("i_board : " + p.getI_board());
+		System.out.println("ctnt : " + p.getCtnt());
 		
 		p.setI_user(SecurityUtils.getLoingUserPk(hs));
-		Map<String, Object> return_value = new HashMap<>();
-		return_value.put(Const.KEY_RESULT, service.insCmt(p));
 		
-		return return_value;
+		Map<String, Object> returnValue = new HashMap<String, Object>();
+		returnValue.put(Const.KEY_RESULT, service.insCmt(p));
+		
+		return returnValue;
+	}
+	
+	@ResponseBody
+	@GetMapping("/insCmt")
+	public List<BoardCmtDomain> selCmtList(@RequestParam int i_board) {
+		return service.selCmtList(i_board);
 	}
 }

@@ -4,10 +4,10 @@
 <mapper namespace="com.spring.board.user.UserMapper">
 	<insert id="insUser">
 		INSERT INTO t_user
-		( user_id, user_pw, salt, nm, gender, ph )
+		( user_id, user_pw, salt, nm, gender, phone )
 		VALUES
 		( #{user_id}, #{user_pw}, #{salt}, #{nm}, #{gender}, #{phone} )
-	</insert>  <!--  회원가입 -->
+	</insert> <!--  회원가입 -->
 	
 	<select id="selUser" resultType="UserEntity">
 		SELECT
@@ -18,7 +18,7 @@
 			<if test="user_id != null and user_id !=''">
 				, salt, user_pw
 			</if> <!--  세션에는 필요없는 값이라서 분리를 한것. 
-								전부 가져와도 상관없다 -->
+						전부 가져와도 상관없다 -->
 		FROM t_user
 		<where>
 			<if test="i_user > 0">
@@ -30,10 +30,3 @@
 		</where>
 	</select> <!--  로그인 -->
 </mapper>  
-
-
-
-
-
-
-

@@ -13,7 +13,8 @@
 	<!-- Enables the Spring MVC @Controller programming model -->
 	<annotation-driven />
 
-	<context:component-scan base-package="com.koreait.sboard" />
+	<!-- 무조건 있어야하는 아이!!   -->
+	<context:component-scan base-package="com.spring.board" />
 	
 	<!-- webapp 아래의 resources안에 있는 파일들을 매핑한다 -->
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
@@ -68,7 +69,4 @@
     
 	<mybatis-spring:scan base-package="com.spring.board"/>
 	
-	<!-- 무조건 있어야하는 아이!!  
-	<context:component-scan base-package="com.spring.board" />
-	-->
 </beans:beans>

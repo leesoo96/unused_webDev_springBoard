@@ -32,14 +32,3 @@ function chkPw() {
 		return false;
 	}
 }
-
-
-
-
-
-
-
-
-
-
-

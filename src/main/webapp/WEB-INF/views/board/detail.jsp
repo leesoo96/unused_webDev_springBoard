@@ -1,21 +1,22 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=EUC-KR"
+    pageEncoding="EUC-KR"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+
 <div>
-	<a href="/board/list?typ=${requestScope.data.typ}">ëŒì•„ê°€ê¸°</a>
+	<a href="/board/list?typ=${requestScope.data.typ}">µ¹¾Æ°¡±â</a>
 	
 	<c:if test="${data.i_user == loginUser.i_user}">
-		<button onclick="clkDel(${requestScope.data.i_board}, ${requestScope.data.typ});">ì‚­ì œ</button>
-		<a href="/board/mod?i_board=${requestScope.data.i_board}">
-			<button>ìˆ˜ì •</button>
+		<button onclick="clkDel(${requestScope.data.i_board}, ${requestScope.data.typ});">»èÁ¦</button>
+		<a href="/board/mod?typ=${requestScope.data.typ}&i_board=${requestScope.data.i_board}">
+			<button>¼öÁ¤</button>
 		</a>
 	</c:if>
 	<div>
-		<div>ë²ˆí˜¸ : ${requestScope.data.seq}</div>
-		<div>ì¡°íšŒìˆ˜ : ${requestScope.data.hits}</div>
+		<div>¹øÈ£ : ${requestScope.data.seq}</div>
+		<div>Á¶È¸¼ö : ${requestScope.data.hits}</div>
 		<div>
-			ì´ë¦„ :
+			ÀÌ¸§ :
 			<c:if test="${data.profile_img == null}">
 				<div class="circular--landscape circular--size40">
 					<img id="profileImg" src="/res/img/basic_profile.jpg">
@@ -28,65 +29,24 @@
 			</c:if>
 			<span class="profile-td-nm">${data.writer_nm}</span>
 		</div>
-		<div>ì œëª© : ${data.title}</div>
-		<div>ì‘ì„±ì¼ : ${data.r_dt}</div>
+		<div>Á¦¸ñ : ${data.title}</div>
+		<div>ÀÛ¼ºÀÏ : ${data.r_dt}</div>
 		<div>
 			${data.ctnt}
 		</div>
 	</div>
-	
 	<div style="margin-top: 20px;">
 		<c:if test="${loginUser != null}">
 		<div>
-			<form id="cmtFrm">							
-				ëŒ“ê¸€: <input type="text" name="ctnt" data-id="${data.i_board }>
-				<input type="button" name="btn" value="ëŒ“ê¸€ì“°ê¸°">
+			<form id="cmtFrm">
+				´ñ±Û: <input type="text" name="ctnt" data-id="${requestScope.data.i_board}">
+				<input type="button" name="btn" value="´ñ±Û¾²±â">
 			</form>
 		</div>	
 		</c:if>
-		<div>
-			<c:if test="${fn:length(requestScope.cmtList) > 0}">
-			<table>
-				<tr>					
-					<th>ë‚´ìš©</th>
-					<th>ì‘ì„±ì</th>
-					<th>ì‘ì„±ì¼</th>
-					<th>ë¹„ê³ </th>					
-				</tr>
-				<c:forEach items="${cmtList}" var="item">
-					<tr>
-						<td>${item.ctnt}</td>
-						<td>${item.user_nm}</td>
-						<td>${item.r_dt}</td>
-						<td>
-							<c:if test="${item.i_user == loginUser.i_user}">
-								<a href="cmt/del?i_cmt=${item.i_cmt}&i_board=${data.i_board}">
-									<button>ì‚­ì œ</button>
-								</a>
-								<button onclick="clkCmtMod(${item.i_cmt});">ìˆ˜ì •</button>
-							</c:if>
-						</td>
-					</tr>
-					<c:if test="${item.i_user == loginUser.i_user}">
-						<tr id="mod_${item.i_cmt}" class="cmd_mod_form">
-							<td colspan="4">
-								<form action="cmt/mod" method="post">
-									<input type="hidden" name="i_board" value="${data.i_board}">
-									<input type="hidden" name="i_cmt" value="${item.i_cmt}">
-									<input type="text" name="ctnt" value="${item.ctnt}">
-									<input type="submit" value="ìˆ˜ì •">
-									<!--input type="button" value="ë‹«ê¸°" onclick="clkCmtClose(${item.i_cmt});"-->
-									<button type="button" onclick="clkCmtClose(${item.i_cmt});">ë‹«ê¸°</button>
-								</form>
-							</td>
-						</tr>
-					</c:if>
-				</c:forEach>
-			</table>
-			</c:if>
-		</div>
+			<div id="cmtList"></div>
 	</div>
-	
+
 	<c:if test="${loginUser != null}">
 	<div id="favoriteContainer" is_favorite="${data.is_favorite}"
 		 onclick="toggleFavorite(${data.i_board});">	
@@ -100,4 +60,3 @@
 		</c:choose>		
 	</div>
 	</c:if>
-</div>
