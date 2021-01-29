@@ -109,7 +109,7 @@ if(cmtFrmElem) { // -> cmtFrmEle != undefined
 		})
 	}
 	
-	getCmtList(i_board)
+	getCmtList(i_board) // 댓글목록읽어오기
 	
 	ctntElem.onkeyup = function(e) {
 		if(e.keybcode == 13) {
@@ -131,31 +131,31 @@ function proc (data) {
 //--------------------------------------
 
 // 댓글읽기
-function getCmtList (i_board) {
-	fetch(`/board/cmtList?i_board=${i_board}`)
-	.then(function (res) {
-		return res.json()
-	})
-	.then(function (list) {
-		console.log(list)
-	})
-}
-
 var cmtList = document.querySelector('#cmtList')
+var cmtObj = null;
 if(cmtList) {
-	function init () {
-		var table = document.createElement('table')
-		table.innerHTML = 
-		`<tr>					
+	cmtObj = {
+		createCmtTable : function() {
+			var table = document.createElement('table')
+			table.innerHTML = 
+			`<tr>					
 			<th>내용</th>
 			<th>작성자</th>
 			<th>작성일</th>
 			<th>비고</th>					
-		</tr>`
+			</tr>`
 		
-		return table
+			return table
+		},
+		getCmtList : function (i_board) {
+			fetch(`/board/cmtList?i_board=${i_board}`)
+			.then(function (res) {
+				return res.json()
+			})
+			.then(function (list) {
+				console.log(list)
+			})
+		}
 	}
-	
-	cmtList.appendChild(init())
 }
 //------------------------------------------------------------
