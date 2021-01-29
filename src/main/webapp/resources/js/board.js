@@ -43,14 +43,14 @@ function clkCmtClose(i_cmt) {
 // Ajax통신 사용
 // 좋아요 기능 처리(첫번째)
 function toggleFavorite (i_board) {
-	var fc = document.querySelector('#favoriteContainer');
-	var state = fc.getAttribute('is_favorite');  // -> 문자열상태!
+	var div_favorite = document.querySelector('#favoriteContainer');
+	var state = div_favorite.getAttribute('is_favorite');  // -> 문자열상태!
 	console.log(state); // 좋아요 안누른 상태 -> 0이 나온다(기본값)
 	
 	var state = 1 - state;
 	
 	// get 방식으로 통신
-	axios.get('/board/ajaxFavorite.korea', {
+	axios.get('/board/ajaxFavorite', {
 		params: {
 			// state 값이 1이면 좋아요안누름 0이면 좋아요누름 
 			'state': state,
@@ -65,8 +65,8 @@ function toggleFavorite (i_board) {
 		*/
 		if(res.data.result == 1) {
 			var iconClass = state == 1 ? 'fas' : 'far';
-			fc.innerHTML = `<i class="${iconClass} fa-heart"></i>`;
-			fc.setAttribute('is_favorite', state)
+			div_favorite.innerHTML = `<i class="${iconClass} fa-heart"></i>`;
+			div_favorite.setAttribute('is_favorite', state)
 		} else {
 			alert('에러가 발생하였습니다.')
 		}
