@@ -25,7 +25,7 @@ public interface BoardMapper {
 
 	int delBoard(BoardDTO p);
 
-//	댓글----------------------------------------------
+//	댓글---------------------------------------------
 	int insCmt(BoardCmtEntity p); 
 	
 	List<BoardCmtDomain> selCmtList(int i_board);

@@ -41,7 +41,7 @@ public class BoardService {
 		return mapper.delBoard(p);
 	}
 
-//	댓글처리코드---------------------------------------------
+//	댓글처리코드--------------------------------------------
 	public int insCmt(BoardCmtEntity p) {
 		return mapper.insCmt(p);
 	}

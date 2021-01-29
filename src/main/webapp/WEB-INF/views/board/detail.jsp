@@ -36,15 +36,18 @@
 		</div>
 	</div>
 	<div style="margin-top: 20px;">
+		<span id="i_board" data-id="${requestScope.data.i_board }"></span>
+		
 		<c:if test="${loginUser != null}">
 		<div>
 			<form id="cmtFrm">
-				´ñ±Û: <input type="text" name="ctnt" data-id="${requestScope.data.i_board}">
+				´ñ±Û: <input type="text" name="ctnt">
 				<input type="button" name="btn" value="´ñ±Û¾²±â">
 			</form>
 		</div>	
 		</c:if>
-			<div id="cmtList"></div>
+		
+		<div id="cmtList"></div>
 	</div>
 
 	<c:if test="${loginUser != null}">

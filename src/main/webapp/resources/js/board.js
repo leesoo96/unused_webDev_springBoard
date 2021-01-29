@@ -84,7 +84,7 @@ if(cmtFrmElem) { // -> cmtFrmEle != undefined
 	}
 
 	var ctntElem = cmtFrmElem.ctnt
-	var i_board = ctntElem.dataset.id
+	var i_board = document.querySelector('#i_board').dataset.id
 	var btnElem = cmtFrmElem.btn
 	
 	btnElem.addEventListener('click', ajax)

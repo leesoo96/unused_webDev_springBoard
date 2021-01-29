@@ -101,7 +101,7 @@ public class BoardController {
 	
 	@ResponseBody
 	@GetMapping("/insCmt")
-	public List<BoardCmtDomain> selCmtList(@RequestParam int i_board) {
+	public List<BoardCmtDomain> selCmtList(@RequestParam int i_board){
 		return service.selCmtList(i_board);
 	}
 }
