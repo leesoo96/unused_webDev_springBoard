@@ -75,6 +75,10 @@ function toggleFavorite (i_board) {
 	});
 }
 
+function cmt_mod(i_cmt, ctnt) {
+
+}
+
 // 댓글삭제
 function delCmt(i_board) {
 	console.log(i_board)

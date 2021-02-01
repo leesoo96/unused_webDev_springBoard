@@ -62,4 +62,17 @@
 			</c:otherwise>
 		</c:choose>		
 	</div>
+	
+
+	<div class="black_bg"></div>
+	<div class="modal_wrap">
+    	<div class="modal_close"><a href="#">close</a>
+    	</div>
+    <div>
+        <h2>댓글수정</h2>
+        <input type="text" id="cmt_ctnt" >
+        <input type="button" id="cmt_Modbtn" value="수정" >
+    </div>
+	</div>
+
 	</c:if>
