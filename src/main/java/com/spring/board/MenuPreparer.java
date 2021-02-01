@@ -9,11 +9,11 @@ import org.springframework.stereotype.Component;
 
 import com.spring.board.common.Const;
 
-@Component("menuPrep")
-public class MenuPreparer implements ViewPreparer{
+@Component("menuPreparer")
+public class MenuPreparer implements ViewPreparer {
 
 	@Autowired
-	private Common_Mapper mapper;
+	private CommonMapper mapper;
 	
 	@Override
 	public void execute(Request tilesContext, AttributeContext attributeContext) {		

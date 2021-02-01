@@ -1,5 +1,5 @@
 'use strict'
-
+// js 코드수정!!!!!!!!!!!!
 //글 제목 클릭
 function clkArticle(i_board) {		
 	var url = `/board/detail?i_board=${i_board}`;
@@ -75,87 +75,149 @@ function toggleFavorite (i_board) {
 	});
 }
 
-// 댓글쓰기 - ajax 이용
-var cmtFrmElem = document.querySelector('#cmtFrm')
-if(cmtFrmElem) { // -> cmtFrmEle != undefined
+// 댓글삭제
+function delCmt(i_board) {
+	console.log(i_board)
 	
+	fetch(`/board/delCmt?i_cmt=${i_cmt}`, {
+		method: 'delete'
+	})
+	.then(function (res) {
+		return res.json()
+	})
+	.then(function (myJson) {
+		switch(myJson.result) {
+			case 1: 
+				cmtObj.getCmtList()
+				return
+			case 0:
+				alert('댓글 삭제 실패')
+				return			
+		}
+	})
+}
+
+// 댓글쓰기 - ajax 이용
+var cmtObj = {
+	i_board = 0,
+	createCmtTable: function() {
+		var tableElem = document.createElement('table')
+		tableElem.innerHTML = 
+		`<tr>
+			<th>내용</th>
+			<th>작성자</th>
+			<th>작성일</th>
+			<th>비고</th>
+		</tr>`			
+		return tableElem
+	},
+	
+	getCmtList: function() {
+		if(this.i_board === 0){
+			return 
+		}
+		
+		fetch(`/board/cmtList?i_board=${this.i_board}`)
+			.then(function(res) {
+				return res.json()
+			})
+			.then((list) => {
+				cmtListElem.innerHTML = ''
+				this.proc(list)
+			})
+	},
+	
+	createRecode: function(item) {
+		var etc = ''
+		if(item.is_mycmt === 1) {
+			etc = `<button>수정</button> 
+					   <button onclick=delCmt(${item.i_cmt})>삭제</button>`
+		}
+		var tr = document.createElement('tr')
+		tr.innerHTML = `
+			<td>${item.ctnt}</td>
+			<td>${item.user_nm}</td>
+			<td>${item.r_dt}</td>
+			<td>etc</td>
+		`
+		return tr
+	},
+	proc: function(list) {
+		if(list.length == 0){
+			return 
+		}
+		
+		var table = this.createCmtTable()
+		for(var i = 0; i < list.length; i++) {
+			var recode = this.createRecode(list[i])
+			table.append(recode)
+		}
+		console.log(list)
+		cmtListElem.append(table)
+	}	
+}
+
+// 댓글 리스트 
+var cmtListElem = document.querySelector('#cmtList')
+if(cmtListElem) {
+	var i_board = document.querySelector('#i_board').dataset.id
+	cmtObj.i_board = i_board
+	cmtObj.getCmtList(i_board)
+}
+
+
+//댓글 달기
+var cmtFrmElem = document.querySelector('#cmtFrm')
+if(cmtFrmElem) {	
 	cmtFrmElem.onsubmit = function(e) {
 		e.preventDefault()
 	}
 
 	var ctntElem = cmtFrmElem.ctnt
+	var btnElem = cmtFrmElem.btn	
 	var i_board = document.querySelector('#i_board').dataset.id
-	var btnElem = cmtFrmElem.btn
-	
+
+	ctntElem.onkeyup = function(e) {
+		console.log(e.keyCode)
+		if(e.keyCode === 13) {
+			ajax()
+		}
+	}	
 	btnElem.addEventListener('click', ajax)
 		
-	function ajax () {
-		var param = {
-			i_board,
-			ctnt: ctntElem.value
+	function ajax () {		
+		if(ctntElem.value === '') {
+			return
 		}
+				
+		var param = {
+			i_board: i_board,
+			ctnt: ctnt,
+		}
+	
 		console.log(param)
-		
 		fetch('/board/insCmt', {
 			method: 'POST',
 			headers: {
             	'Content-Type': 'application/json'
 			},
-			body: JSON.stringify(param) // 객체를 문자열(JSON) 형태로 변환한다
+			body: JSON.stringify(param)
 		}).then(function(res) {
-			return res.json()  // promise 객체 리턴
+			return res.json()
 		}).then(function(data) {
 			proc(data)
 		})
 	}
 	
-	getCmtList(i_board) // 댓글목록읽어오기
-	
-	ctntElem.onkeyup = function(e) {
-		if(e.keybcode == 13) {
-			ajax()
+	function proc (data) {
+		switch(data.result){
+			case 0:
+				alert('댓글 작성 실패하였습니다')
+			return
+			case 1:
+				ctntElem.value = ''
+				cmgObj.getCmtList(i_board)
+			return
 		}
 	}
 }
-
-function proc (data) {
-	switch(data.result) {
-		case 0 :
-			alert('댓글작성에 실패하였습니다.')
-		return
-		case 1 : 
-			ctntEle.value = ''
-		return 
-	}
-}
-//--------------------------------------
-
-// 댓글읽기
-var cmtList = document.querySelector('#cmtList')
-var cmtObj = null;
-if(cmtList) {
-	cmtObj = {
-		createCmtTable : function() {
-			var table = document.createElement('table')
-			table.innerHTML = 
-			`<tr>					
-			<th>내용</th>
-			<th>작성자</th>
-			<th>작성일</th>
-			<th>비고</th>					
-			</tr>`
-		
-			return table
-		},
-		getCmtList : function (i_board) {
-			fetch(`/board/cmtList?i_board=${i_board}`)
-			.then(function (res) {
-				return res.json()
-			})
-			.then(function (list) {
-				console.log(list)
-			})
-		}
-	}
-}
-//------------------------------------------------------------

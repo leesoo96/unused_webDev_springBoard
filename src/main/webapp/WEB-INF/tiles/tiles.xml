@@ -3,7 +3,7 @@
 <tiles-definitions>
 
     <definition name="basic-template" template="/WEB-INF/views/temp/tiles_temp.jsp" 
-						preparer="menuPrep">    	
+						preparer="menuPreparer">    	
 			   <!--  MenuPreparer클래스의 빈 등록이름 -->
         <put-attribute name="header" value="/WEB-INF/views/temp/header.jsp" />        
     </definition>

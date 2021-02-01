@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.spring.board.model.ManageBoardEntity;
 
-public interface Common_Mapper {
+public interface CommonMapper {
 
 	List<ManageBoardEntity> selManageBoardList();
 }
